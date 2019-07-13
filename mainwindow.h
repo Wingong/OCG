@@ -24,7 +24,7 @@ private:
     int             minIndex;
     int             maxIndex;
 
-    QVector<QString>puncVec = {"，","。","？","！"};
+    QRegExp rePunc = QRegExp("[\\s -~！￥…（）{}【】、；：‘’“”，《。》？]");
 };
 
 #endif // MAINWINDOW_H

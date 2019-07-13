@@ -34,6 +34,8 @@ public:
     int size(){return _zhList.size();}
     int getMaxStroke(){return _strokeVec.size();}
     Minmax getMinMaxIndex(int minStroke,int maxStroke);
+    int getMinIndex(int minStroke){return _strokeVec[minStroke-1].min;}
+    int getMaxIndex(int maxStroke){return _strokeVec[maxStroke-1].max;}
     Zh &operator[](int i){return _zhList[i];}
     int genSheet(const QString &path = "123");
 private:

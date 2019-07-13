@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = OCG_v0.0.0
+TARGET = OCG_v0.1.0
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use

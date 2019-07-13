@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>正交汉字生成器 v0.0.0</string>
+   <string>正交汉字生成器 v0.1.0</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout" rowstretch="1,1" columnstretch="1,0">

@@ -49,24 +49,19 @@ MainWindow::MainWindow(QWidget *parent) :
     });
     connect(ui->txtMin,&QLineEdit::textChanged,this,[=](const QString &str){
         int min = str.toInt();
-        if(min > maxStroke || min > ui->txtMax->text().toInt())
+        if(min > maxStroke || min < minStroke)
         {
             ui->txtMin->setText(str.left(str.size()-1));
-        }
-        else
-        {
-            return;
         }
         if(str == "")
         {
             ui->txtMin->setText("1");
         }
-        minStroke = min;
-        minIndex = sheet.getMinMaxIndex(minStroke,maxStroke).min;
+        minIndex = sheet.getMinIndex(min);
     });
     connect(ui->txtMax,&QLineEdit::textChanged,this,[=](const QString &str){
         int max = str.toInt();
-        if(max < minStroke || max < ui->txtMin->text().toInt())
+        if(max < minStroke || max > maxStroke)
         {
             ui->txtMax->setText(str.left(str.size()-1));
         }
@@ -74,8 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
         {
             ui->txtMax->setText(ui->txtMin->text());
         }
-        maxStroke = max;
-        maxIndex = sheet.getMinMaxIndex(minStroke,maxStroke).max;
+        maxIndex = sheet.getMaxIndex(max);
     });
     connect(ui->txtPath,&QLineEdit::textChanged,this,[=](const QString &str){
         if(ui->btnRead->isEnabled() && str.size() == 0)
@@ -108,16 +102,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     });
     connect(ui->btnTransfer,&QPushButton::clicked,this,[=](){
+        if(ui->txtMax->text().toInt() < ui->txtMin->text().toInt())
+        {
+            ui->txtMax->setText(ui->txtMin->text());
+            maxIndex = sheet.getMaxIndex(ui->txtMax->text().toInt());
+        }
         QString src = ui->txtSrc->toPlainText();
         QString dest;
-        QRegExp rePunc("[，。？！]");
         for(auto &i:src)
         {
             if(rePunc.indexIn(i) != -1)
                 dest.append(i);
             else
             {
-                int rnd = rand()*(maxIndex-minIndex+1)/RAND_MAX + minIndex;
+                qint64 rnd = rand()*(maxIndex-minIndex+1)/RAND_MAX + minIndex;
                 dest.append(sheet[rnd].ch);
             }
         }
